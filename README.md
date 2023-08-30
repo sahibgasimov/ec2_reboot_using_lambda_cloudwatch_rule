@@ -51,7 +51,7 @@ Once the process completes, your Lambda function will be set up and ready to reb
 #### account_id: Your AWS account ID.
 #### sns_topic_arn: ARN of the SNS topic to which notifications should be sent.
 
-### Lambda Function Logic
+## Lambda Function Logic
 
 The core logic of the Lambda function is written in Python. It retrieves the instance IDs and SNS Topic ARN from environment variables. For each instance ID:
 
@@ -60,31 +60,32 @@ The core logic of the Lambda function is written in Python. It retrieves the ins
 An SNS notification is sent.
 If there's an error during the reboot, the error is printed and logged in AWS CloudWatch.
 
-## Error handling
-
-CRON Schedule Explanation
+## CRON Schedule Explanation
 The CloudWatch Event Rule uses a cron expression to determine when to trigger the Lambda function. In this configuration, the cron expression is:
 
    ```bash
    schedule_expression = "cron(10 6 ? * * *)"
    ```
 
-10: 10th minute of the hour
-6: 6th hour of the day in UTC
-?: No specific day of the month
-*: Every month
-*: Every day of the week
-*: Every year
+- 10: 10th minute of the hour
+- 6: 6th hour of the day in UTC
+- ?: No specific day of the month
+- *: Every month
+- *: Every day of the week
+- *: Every year
 This effectively schedules the event to trigger at 6:10 AM UTC. However, as the desired time is 20:00 PM EST, which is equivalent to 6:10 AM UTC of the next day, this expression effectively covers our requirement of 20:00 PM EST.
 
 ## Troubleshooting
 
 If something isn't working as expected:
 
-CloudWatch Logs: Check the logs for the Lambda function in CloudWatch. Any errors or print statements from the Lambda function will be captured here.
-IAM Permissions: Ensure that the IAM role associated with the Lambda function has the appropriate permissions. Permission issues are a common cause of errors.
-Terraform Version: This configuration is designed to work with Terraform version 0.15.1. Using a different version might lead to unexpected issues.
-Check CloudWatch Event Rule: Ensure that the CloudWatch event rule is being triggered as expected. You can manually trigger the rule to test the entire flow.
+- **CloudWatch Logs:** Check the logs for the Lambda function in CloudWatch. Any errors or print statements from the Lambda function will be captured here.
+
+- **IAM Permissions:** Ensure that the IAM role associated with the Lambda function has the appropriate permissions. Permission issues are a common cause of errors.
+
+- **Terraform Version:** This configuration is designed to work with Terraform version 0.15.1. Using a different version might lead to unexpected issues.
+
+- **Check CloudWatch Event Rule:** Ensure that the CloudWatch event rule is being triggered as expected. You can manually trigger the rule to test the entire flow.
 
 
 
