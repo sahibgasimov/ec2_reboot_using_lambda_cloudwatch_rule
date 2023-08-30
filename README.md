@@ -23,7 +23,7 @@ This Terraform script sets up an AWS Lambda function which reboots specified EC2
    ```bash
    git clone https://github.com/sahibgasimov/ec2_reboot_using_lambda_cloudwatch_rule.git
 
-
-cd path_to_directory
+```bash
+   cd path_to_directory
 
 
