@@ -1,6 +1,12 @@
 provider "aws" {
-  region = var.region # Choose your desired region
+  version = "= 3.40.0" 
+  region  = var.region
 }
+
+terraform {
+  required_version = "= 0.15.1"
+}
+
 
 locals {
   instance_arns = [for id in var.instance_ids : "arn:aws:ec2:${var.region}:${var.account_id}:instance/${id}"]
