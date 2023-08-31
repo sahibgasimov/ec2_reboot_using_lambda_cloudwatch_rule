@@ -52,7 +52,7 @@ This Terraform script sets up an AWS Lambda function which reboots specified EC2
    ```
 
 
-   3. Initialize Terraform.
+4. Initialize Terraform.
    
    ```bash
    terraform init
@@ -69,10 +69,25 @@ Once the process completes, your Lambda function will be set up and ready to reb
 
 ## Variables
 
-#### region: AWS region where resources will be deployed.
-#### instance_ids: List of EC2 instance IDs that need to be rebooted.
-#### account_id: Your AWS account ID.
-#### sns_topic_arn: ARN of the SNS topic to which notifications should be sent.
+- **region**: 
+  - Description: AWS region where resources will be deployed.
+
+- **instance_ids**: 
+  - Description: List of EC2 instance IDs that need to be rebooted.
+
+- **account_id**: 
+  - Description: Your AWS account ID.
+
+- **sns_topic_arn**: 
+  - Description: ARN of the SNS topic to which notifications should be sent.
+
+- **default_tags**: 
+  - Description: These tags will be applied to all created resources.
+
+- **lambda_function_name**: 
+  - Description: Add your desired lambda function name.
+
+
 
 ## Lambda Function Logic
 
@@ -112,10 +127,9 @@ def lambda_handler(event, context):
     }
 ```
 
-## The EC2 instance is rebooted.
+## After EC2 instances were rebooted.
 
-An SNS notification is sent.
-If there's an error during the reboot, the error is printed and logged in AWS CloudWatch.
+An SNS notification is sent. If there's an error during the reboot, the error is printed and logged in AWS CloudWatch.
 
 ## CRON Schedule Explanation
 The CloudWatch Event Rule uses a cron expression to determine when to trigger the Lambda function. In this configuration, the cron expression is:
