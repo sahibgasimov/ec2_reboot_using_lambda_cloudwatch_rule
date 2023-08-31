@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
-    bucket = "seraf-adsadko"
-    key    = "test3/aws_cloudwatch_event/terraform.tfstate"
-    region = "us-east-2"
+    bucket = "your_s3_bucket"
+    key    = "your_folder/terraform.tfstate"
+    region = "us-east-1"
   }
 }
