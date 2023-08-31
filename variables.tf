@@ -9,7 +9,6 @@ variable "region" {
 variable "instance_ids" {
   type        = list(string)
   description = "List of EC2 instance IDs to reboot"
-  default     = ["i-0b72b483a01fe21d4", "i-0bcb2a06384164cb6"] # Add more IDs as needed
 }
 
 
