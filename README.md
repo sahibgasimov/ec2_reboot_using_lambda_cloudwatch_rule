@@ -15,7 +15,7 @@ This Terraform script sets up an AWS Lambda function which reboots specified EC2
 ## Prerequisites
 
 - AWS Account.
-- Terraform installed on your machine.
+- Terraform version => 0.15.1
 - AWS CLI set up with appropriate permissions.
 - Your desired EC2 instance IDs and region details.
 - Existing SNS topic arn 
@@ -32,7 +32,27 @@ This Terraform script sets up an AWS Lambda function which reboots specified EC2
    ```bash
    cd ec2_reboot_using_lambda_cloudwatch_rule
    ```
-3. Initialize Terraform.
+
+   Edit your terraform.tfvars to your 
+
+   ```hcl
+   region               = "" # Override the default region
+   lambda_function_name = ""
+   account_id           = "" # Add your account number
+   instance_ids = ["i-xxxxxxx", "i-yyyyyyy"] # Add your instance IDs
+   sns_topic_arn = "" #add your sns topic arn here
+   cron_schedule = "cron(11 2 ? * WED *)" #set up cron based on your desired time schedule
+
+   default_tags = {
+     Terraform   = "true"
+     Environment = "prod"
+     Owner       = "your_name"
+     # Add more tags as necessary
+   }
+   ```
+
+
+   3. Initialize Terraform.
    
    ```bash
    terraform init
@@ -40,7 +60,7 @@ This Terraform script sets up an AWS Lambda function which reboots specified EC2
 5. Apply the Terraform plan.
    
    ```bash
-   terraform apply
+   terraform apply -var-file=terraform.tfvars
    ```
 
 Confirm the changes by typing ('yes') when prompted.
@@ -110,7 +130,8 @@ The CloudWatch Event Rule uses a cron expression to determine when to trigger th
 - *: Every month
 - *: Every day of the week
 - *: Every year
-This effectively schedules the event to trigger at 6:10 AM UTC. However, as the desired time is 20:00 PM EST, which is equivalent to 6:10 AM UTC of the next day, this expression effectively covers our requirement of 20:00 PM EST.
+  
+This effectively schedules the event to trigger at 6:10 AM UTC (which will be 20:00 PM EST).
 
 ## Troubleshooting
 
