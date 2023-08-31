@@ -16,13 +16,13 @@ variable "instance_ids" {
 variable "account_id" {
   type        = string
   description = "instance_id to deploy resources"
-  default     = "014113799398"
+  default     = ""
 }
 
 variable "sns_topic_arn" {
   type        = string
   description = "instance_id to deploy resources"
-  default     = "arn:aws:sns:us-east-2:014113799398:system-health-check-failed-alert"
+  default     = ""
 }
 
 variable "default_tags" {
