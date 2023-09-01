@@ -1,5 +1,5 @@
-![image](https://github.com/sahibgasimov/ec2_reboot_using_lambda_cloudwatch_rule/assets/100177153/a1e2b049-b437-4636-ab10-f8bd41de2201)
 
+![tf](https://github.com/sahibgasimov/tf_ec2_reboot_using_lambda_cw_rule/assets/100177153/20fad90f-4358-4b99-b861-6fa192e872ac)
 
 # AWS Lambda EC2 Rebooter with SNS Notification
 
