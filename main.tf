@@ -48,7 +48,12 @@ resource "aws_iam_role_policy" "lambda_ec2_sns_policy" {
     Version = "2012-10-17",
     Statement = [
       {
-        Action   = ["ec2:RebootInstances"],
+        Action   = "ec2:DescribeInstances",
+        Effect   = "Allow",
+        Resource = "*"
+      },
+      {
+        Action   = "ec2:RebootInstances",
         Effect   = "Allow",
         Resource = local.instance_arns
       },
@@ -60,6 +65,8 @@ resource "aws_iam_role_policy" "lambda_ec2_sns_policy" {
     ]
   })
 }
+
+
 
 ######################## LAMBDA ######################################
 

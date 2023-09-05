@@ -2,36 +2,30 @@ import boto3
 import os
 
 def lambda_handler(event, context):
+    # AWS SDK for Python (Boto3)
     ec2 = boto3.client('ec2')
     sns = boto3.client('sns')
-    
-    # Retrieve the EC2 instance IDs and SNS Topic ARN from environment variables
-    instance_ids = os.environ['instance_ids'].split(',')
+
     sns_topic_arn = os.environ['sns_topic_arn']
-    
+    instance_ids = os.environ['instance_ids'].split(',')
+
+    messages = []
+
     for instance_id in instance_ids:
-        try:
-            # Reboot the EC2 instance
-            ec2.reboot_instances(InstanceIds=[instance_id])
-            
-            # Send an SNS notification indicating successful reboot
-            sns.publish(
-                TopicArn=sns_topic_arn,
-                Message=f'EC2 instance {instance_id} has been rebooted.',
-                Subject='EC2 Reboot Notification'
-            )
-            
-        except Exception as e:
-            print(f"Error rebooting instance {instance_id}: {e}")
-            
-            # Send an SNS notification indicating the failure
-            sns.publish(
-                TopicArn=sns_topic_arn,
-                Message=f'Error rebooting EC2 instance {instance_id}: {str(e)}',
-                Subject='EC2 Reboot Failure Notification'
-            )
+        state = check_instance_state(ec2, instance_id)
+        if state == "running":
+            try:
+                ec2.reboot_instances(InstanceIds=[instance_id])
+                messages.append(f"EC2 instance {instance_id} has been rebooted.")
+            except Exception as e:
+                messages.append(f"Error rebooting EC2 instance {instance_id}: {str(e)}")
+        else:
+            messages.append(f"EC2 instance {instance_id} is in {state} state and cannot be rebooted.")
     
-    return {
-        'statusCode': 200,
-        'body': f'All specified EC2 instances have been attempted to reboot and SNS notifications sent.'
-    }
+    # Send consolidated SNS message
+    sns.publish(TopicArn=sns_topic_arn, Message="\n".join(messages))
+
+def check_instance_state(ec2, instance_id):
+    response = ec2.describe_instances(InstanceIds=[instance_id])
+    state = response['Reservations'][0]['Instances'][0]['State']['Name']
+    return state

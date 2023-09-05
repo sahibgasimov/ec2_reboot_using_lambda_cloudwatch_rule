@@ -1,9 +1,9 @@
-region               = "us-east-2"
-lambda_function_name = "sahib"
+region               = "us-east-1"
+lambda_function_name = ""
 account_id           = ""                         # Add your account number
-instance_ids         = ["", ""] # Add your instance IDs
+instance_ids         = ["i-xxxxxxx", "i-yyyyyyy"] # Add your instance IDs
 sns_topic_arn        = ""
-cron_schedule        = "cron(22 2 ? * MON-FRI *)"
+cron_schedule        = "cron(11 2 ? * WED *)"
 
 default_tags = {
   Terraform   = "true"
