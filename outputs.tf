@@ -16,7 +16,3 @@ output "lambda_iam_role_arn" {
   value       = aws_iam_role.lambda_role.arn
 }
 
-output "lambda_iam_policy_arn" {
-  description = "ARN of the IAM policy used by the Lambda function"
-  value       = aws_iam_role_policy.lambda_ec2_sns_policy
-}

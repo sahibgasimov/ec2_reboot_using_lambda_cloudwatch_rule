@@ -23,7 +23,7 @@ resource "aws_iam_role_policy_attachment" "lambda_logs" {
 
 # Create IAM role for Lambda
 resource "aws_iam_role" "lambda_role" {
-  name = "${var.lambda_function_name}-lambda-role"
+  name = "${var.lambda_function_name}-lambda-role-new"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17",
@@ -72,6 +72,7 @@ resource "aws_lambda_function" "reboot_lambda" {
   handler       = "handler.lambda_handler" # This points to the Python function
   runtime       = "python3.8"              # Set to Python 3.8
 
+  timeout = 60  # sets the timeout to 15 seconds
 
   environment {
     variables = {

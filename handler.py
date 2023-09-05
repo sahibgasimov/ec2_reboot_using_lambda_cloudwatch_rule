@@ -14,7 +14,7 @@ def lambda_handler(event, context):
             # Reboot the EC2 instance
             ec2.reboot_instances(InstanceIds=[instance_id])
             
-            # Send an SNS notification
+            # Send an SNS notification indicating successful reboot
             sns.publish(
                 TopicArn=sns_topic_arn,
                 Message=f'EC2 instance {instance_id} has been rebooted.',
@@ -23,10 +23,15 @@ def lambda_handler(event, context):
             
         except Exception as e:
             print(f"Error rebooting instance {instance_id}: {e}")
-            raise e  # Raising the exception will ensure that it gets logged in CloudWatch
+            
+            # Send an SNS notification indicating the failure
+            sns.publish(
+                TopicArn=sns_topic_arn,
+                Message=f'Error rebooting EC2 instance {instance_id}: {str(e)}',
+                Subject='EC2 Reboot Failure Notification'
+            )
     
     return {
         'statusCode': 200,
         'body': f'All specified EC2 instances have been attempted to reboot and SNS notifications sent.'
     }
-
