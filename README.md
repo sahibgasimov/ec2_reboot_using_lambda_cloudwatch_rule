@@ -126,7 +126,7 @@ def check_instance_state(ec2, instance_id):
     state = response['Reservations'][0]['Instances'][0]['State']['Name']
     return state
 ```
-After EC2 instances were rebooted an SNS notification is sent. If any of the instances are failed reboot this will be notified as well:
+If any of the instances will fail reboot this will be notified as well:
 
 ![Alt text](image.png)
 
