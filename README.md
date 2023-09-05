@@ -132,10 +132,8 @@ def lambda_handler(event, context):
         'body': f'All specified EC2 instances have been attempted to reboot and SNS notifications sent.'
     }
 ```
-
-## After EC2 instances were rebooted.
-
-An SNS notification is sent. If there's an error during the reboot, the error is printed and logged in AWS CloudWatch.
+After EC2 instances were rebooted an SNS notification is sent. If there is any instance that failed reboot for some reason lambda will notify about that.
+If there's an error during the reboot, the error is printed and logged in AWS CloudWatch.
 
 ## CRON Schedule Explanation
 The CloudWatch Event Rule uses a cron expression to determine when to trigger the Lambda function. In this configuration, the cron expression is:
